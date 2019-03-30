@@ -6,7 +6,7 @@ document.getElementById('get').addEventListener('click', async function(event){
       let content = ""
 
       for (i=0; i<body_obj.length; i++){
-        content += "<div id="+i+">"+body_obj[i][0]+"<button id='post"+i+"'>Get data</button></div><br><br>";
+        content += "<div id="+i+">"+body_obj[i]+"<button id='post"+i+"'>Get data</button></div><br><br>";
         
       }
 
@@ -26,14 +26,13 @@ function addbuttontopost(i){
       let response = await fetch('http://localhost:8090/post?id='+i);
       let body = await response.text();
       let body_obj = JSON.parse(body)
-      let content = ""
+      let content = "<h2>"+body_obj[0]+"</h2><p>"+body_obj[1]+"</p>"
 
-      for (i=0; i<body_obj.length; i++){
-        content += body_obj[i]+"<button id='post"+i+"'>Get data</button><br><br>";
+      
 
-      }
+      
 
-      document.getElementById('content').innerHTML=content
+      document.getElementById('postviewer').innerHTML=content
 
 
     } catch(e) {

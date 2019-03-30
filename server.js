@@ -12,19 +12,33 @@ let posts = [ ['Hello','goodbye'], ['testing','stop testing'], ['more testing','
 
 
 app.get('/posts', function (req, resp){
-    resp.send(posts);
+    let post_titles = []
+    for (i=0; i<posts.length; i++){
+        post_titles.push(posts[i][0])
+      }
+    resp.send(post_titles);
 });
 app.get('/post', function(req, resp){
     post_id = req.query.id
     if (post_id != {}){
-        console.log(post_id);
-        console.log(typeof(post_id))
-        resp.send(posts)
+        let post_id_number = parseInt(post_id)
+        if (typeof(post_id) == "string" && !isNaN(post_id_number)) {
+            if (post_id_number < posts.length && post_id_number >= 0) {
+                resp.send(posts[post_id_number])  
 
+            } else {
+                resp.status(400)
+                resp.send({})
+            }       
+        } else {
+            resp.status(400)
+            resp.send({})
+        }
     } else {
         resp.status(400)
         resp.send({})
     }
+    
     
 })
 
