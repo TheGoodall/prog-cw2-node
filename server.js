@@ -7,7 +7,7 @@ app.use(express.static('client'));
 
 
 
-let posts = [ ['Hello','goodbye'], ['testing','stop testing'], ['more testing','less testing']];
+let posts = [['Hello','goodbye'], ['testing','stop testing'], ['more testing','less testing']];
 
 
 
