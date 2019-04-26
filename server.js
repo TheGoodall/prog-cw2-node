@@ -11,7 +11,7 @@ app.use(express.static('client'));
 
 
 
-app.get('/', function (req, resp){
+app.get('/api/', function (req, resp){
     resp.send(posts);
 });
 
