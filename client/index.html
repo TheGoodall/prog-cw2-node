@@ -13,7 +13,7 @@
     </head>
 
     <body>
-        <div class="jumbotron text-center">
+          <div class="jumbotron text-center">
             <h1>Food!</h1>
             <p>Manage your group eating</p> 
           </div>
@@ -23,22 +23,35 @@
               <div class="col-sm-3">
                 <h3>Groups</h3>
 
+                    <div id="groups"></div>
+
+                  
               </div>
               <div class="col-sm-6">
                 <h3>Group</h3>
-
+                <div class="collapse" id="group">
+                  <div class="card card-body">
+                    <div id=transactions></div>
+                  </div>
+                </div>
               </div>
               <div class="col-sm-3">
-                <h3>New:</h3>        
-                <button id="meal_butt" type="button" class="btn btn-primary" disabled>Meal</button>
-                <button id="shop_butt" type="button" class="btn btn-primary">Shop</button>
-                <div id="meal_form_div" style="display:none;">
-                    
+                <h3>New:</h3>
+                <div class="collapse" id="new">
+                    <div class="card card-body">    
+                      <button id="meal_butt" type="button" class="btn btn-primary" disabled>Meal</button>
+                      <button id="shop_butt" type="button" class="btn btn-primary">Shop</button>
+                      <div id="meal_form_div" style="display:none;">
+                        <br>
+                          meal form
+                      </div>
+                      <div id="shop_form_div" style="display:none;">
+                        <br>
+                          shop form
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div id="shop_form_div" style="display:none;">
-                    
-                </div>
-              </div>
             </div>
           </div>
     <script src="index.js"></script>

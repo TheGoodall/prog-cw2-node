@@ -1,19 +1,45 @@
-async function (event){
-  let response = await fetch('http://127.0.01:8090/list');
+
+
+
+
+
+
+async function load_groups(){
+
+  let response = await fetch('http://localhost:8090/api/groups');
   let body = await response.text();
-  document.getElementById('content').innerHTML = "<ul>";
 
-  let potatoes = JSON.parse(body);
-  for(let i = 0; i < potatoes.length; i++){
-    document.getElementById('content').innerHTML += "<li>" + potatoes[i] + "</li>";
+  let groups = JSON.parse(body);
+
+  for(let i = 0; i < groups.length; i++){
+    document.getElementById('groups').innerHTML += '<button type=button" class="btn btn-secondary">'+groups[i]+'</button><br><br>';
   }
-
-  document.getElementById('content').innerHTML += "</ul>";
 }
+
+load_groups()
+
+
+document.getElementById('group').collapse
+document.getElementById('new').collapse
+
 
 
 document.getElementById('meal_butt').addEventListener('click', function(event){
+  document.getElementById("meal_butt").disabled = true;
+  document.getElementById("shop_butt").disabled = false;
 
+  document.getElementById("meal_form_div").style="display:block;";
+  document.getElementById("shop_form_div").style="display:none;";
+
+
+});
+
+document.getElementById('shop_butt').addEventListener('click', function(event){
+  document.getElementById("shop_butt").disabled = true;
+  document.getElementById("meal_butt").disabled = false;
+
+  document.getElementById("shop_form_div").style="display:block;";
+  document.getElementById("meal_form_div").style="display:none;";
 
 
 });
