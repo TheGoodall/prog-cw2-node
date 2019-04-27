@@ -20,5 +20,9 @@
   "dependencies": {
     "express": "^4.16.4",
     "nodemon": "^1.18.10"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-google": "^0.12.0"
   }
 }
