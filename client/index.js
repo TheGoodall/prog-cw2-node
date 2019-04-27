@@ -39,7 +39,9 @@ async function load_groups(){
 
 		document.getElementById("group_butt_"+groups[i]).addEventListener("click", function(){
 			load_group(groups[i]);
-		})
+		
+		});
+		console.log("adding event listener to "+groups[i])
 	}
 }
 
@@ -52,8 +54,8 @@ $("#group").collapse("hide")
 
 
 document.getElementById("meal_butt").addEventListener("click", function(event){
-	document.getElementById("meal_butt").disabled = true;
-	document.getElementById("shop_butt").disabled = false;
+/* 	document.getElementById("meal_butt").disabled = true;
+	document.getElementById("shop_butt").disabled = false; */
 
 	document.getElementById("meal_form_div").style="display:block;";
 	document.getElementById("shop_form_div").style="display:none;";
@@ -62,8 +64,8 @@ document.getElementById("meal_butt").addEventListener("click", function(event){
 });
 
 document.getElementById("shop_butt").addEventListener("click", function(event){
-	document.getElementById("shop_butt").disabled = true;
-	document.getElementById("meal_butt").disabled = false;
+/* 	document.getElementById("shop_butt").disabled = true;
+	document.getElementById("meal_butt").disabled = false; */
 
 	document.getElementById("shop_form_div").style="display:block;";
 	document.getElementById("meal_form_div").style="display:none;";
