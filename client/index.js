@@ -9,76 +9,86 @@ var auth0 = new window.auth0.WebAuth({
 	scope: "openid profile",
 });
 
-let accessToken;
-let idToken;
+
+
 function auth() {
 	var hash = window.location.hash;
 	if (hash === "") {
 		auth0.authorize();
 		return;
 	}
-	return auth0.parseHash(handleParseHash);
+
+	auth0.parseHash(handleParseHash);
 	function handleParseHash(err, authResult) {
-	
 		if (authResult && authResult.accessToken && authResult.idToken) {
-			accessToken = authResult.accessToken;
-			idToken = authResult.idToken;	
+			let accessToken = authResult.accessToken;
+			let idToken = authResult.idToken;
+
+			load_groups(accessToken);
+
+
 		}
 	}
 }
 
 auth();
 
-console.log(accessToken)
 
-async function callApi(endpoint){
+
+async function callApi(endpoint, accessToken){
 	let url = apiUrl + endpoint;
+	console.log("sending request")
 	let response = await fetch(url, {headers: {"Authorization": "Bearer " + accessToken}});
 	let body = await response.text();
 	let err = response.status;
 	if (err != 200){
-		return err
+		return err;
 	}
 
 
 	let data = JSON.parse(body);
+	console.log("recieved" + data)
 	return data;
 }
 
-async function load_group(group){
-
+function load_group(group, accessToken){
 	
-	let transactions = callApi("/api/transactions"+group)
 	
-	document.getElementById("group").innerHTML = "";
+	callApi("/api/transactions/"+group, accessToken).then(transactions => {
+		document.getElementById("group").innerHTML = "";
 
-	for(let i = 0; i < transactions.length; i++){
-		document.getElementById("group").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\">"+transactions[i]+"</button><br><br>";
-	}
-	$("#group").collapse("show");
-	$("#new").collapse("show");
-	document.getElementById("groupname").innerHTML = group;	
+		for(let i = 0; i < transactions.length; i++){
+			document.getElementById("group").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\">"+transactions[i]+"</button><br><br>";
+		}
+		$("#group").collapse("show");
+		$("#new").collapse("show");
+		document.getElementById("groupname").innerHTML = group;	
+	})
+	
+
 }
 
-async function load_groups(accessToken){
+function load_groups(accessToken){
 
-	let groups = callApi("/api/groups")
+	callApi("/api/groups", accessToken).then(groups => {
 
-	for(let i = 0; i < groups.length; i++){
-		document.getElementById("groups").innerHTML += "<button type=\"button\" id=\"group_butt_"+groups[i]+"\" class=\"btn btn-secondary\">"+groups[i]+"</button><br><br>";
+		for(let i = 0; i < groups.length; i++){
+			document.getElementById("groups").innerHTML += "<button type=\"button\" id=\"group_butt_"+groups[i]+"\" class=\"btn btn-secondary\">"+groups[i]+"</button><br><br>";
+	
+			document.getElementById("group_butt_"+groups[i]).addEventListener("click", function(){
+				load_group(groups[i], accessToken);
+			
+			});
+		}
 
-		document.getElementById("group_butt_"+groups[i]).addEventListener("click", function(){
-			load_group(groups[i], accessToken);
-		
-		});
-	}
+	})
+	
 }
 
-load_groups()
+
 
 $("#group").collapse("hide");
 
-$(".modal").modal();
 
 
 document.getElementById("meal_butt").addEventListener("click", function(event){
