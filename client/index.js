@@ -1,4 +1,4 @@
-let apiUrl = "http://localhost:8090"
+let apiUrl = "http://localhost:8090";
 
 var auth0 = new window.auth0.WebAuth({
 	clientID: "jdfBWYz21i4sCE0Cs1cZxkxCptc1JkJM",
@@ -20,13 +20,12 @@ function auth() {
 
 	auth0.parseHash(handleParseHash);
 	function handleParseHash(err, authResult) {
-		if (authResult && authResult.accessToken && authResult.idToken) {
-			let accessToken = authResult.accessToken;
-			let idToken = authResult.idToken;
-
-			load_groups(accessToken);
-
-
+		if (err) {
+			auth0.authorize();
+		} else if (!authResult) {
+			auth0.checkSession({}, handleParseHash);
+		} else if (authResult) {
+			load_groups(authResult.accessToken);
 		}
 	}
 }
@@ -37,7 +36,6 @@ auth();
 
 async function callApi(endpoint, accessToken){
 	let url = apiUrl + endpoint;
-	console.log("sending request")
 	let response = await fetch(url, {headers: {"Authorization": "Bearer " + accessToken}});
 	let body = await response.text();
 	let err = response.status;
@@ -47,7 +45,7 @@ async function callApi(endpoint, accessToken){
 
 
 	let data = JSON.parse(body);
-	console.log("recieved" + data)
+
 	return data;
 }
 
@@ -55,10 +53,9 @@ function load_group(group, accessToken){
 	
 	
 	callApi("/api/transactions/"+group, accessToken).then(transactions => {
-		document.getElementById("group").innerHTML = "";
-
+		document.getElementById("transactions").innerHTML = "<tr><td>Amount</td><td>Name</td></tr>";
 		for(let i = 0; i < transactions.length; i++){
-			document.getElementById("group").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\">"+transactions[i]+"</button><br><br>";
+			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td>"+transactions[i][1]+"</td></tr>";
 		}
 		$("#group").collapse("show");
 		$("#new").collapse("show");
@@ -74,14 +71,13 @@ function load_groups(accessToken){
 
 		for(let i = 0; i < groups.length; i++){
 			document.getElementById("groups").innerHTML += "<button type=\"button\" id=\"group_butt_"+groups[i]+"\" class=\"btn btn-secondary\">"+groups[i]+"</button><br><br>";
-	
+		}
+		for(let i = 0; i < groups.length; i++){
 			document.getElementById("group_butt_"+groups[i]).addEventListener("click", function(){
 				load_group(groups[i], accessToken);
-			
 			});
 		}
-
-	})
+	});
 	
 }
 

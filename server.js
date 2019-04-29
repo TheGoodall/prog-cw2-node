@@ -9,12 +9,12 @@ const checkJwt = jwt({
 		cache: true,
 		rateLimit: true,
 		jwksRequestsPerMinute: 5,
-		jwksUri: `https://frizlette.eu.auth0.com/.well-known/jwks.json`,
+		jwksUri: "https://frizlette.eu.auth0.com/.well-known/jwks.json",
 	}),
-	audience: 'http://localhost:8090',
-	issuer: 'https://frizlette.eu.auth0.com/',
-	algorithms: [ 'RS256' ],
-  });
+	audience: "http://localhost:8090",
+	issuer: "https://frizlette.eu.auth0.com/",
+	algorithms: [ "RS256" ],
+});
 
 //app.use("/api/*", checkJwt)
 
@@ -24,7 +24,7 @@ app.use(cors({credentials: true, origin: true}));
 app.use(express.static("client"));
 app.use("/admin", express.static("admin"));
 
-let groups = ["Test Group", "Other Test Group"];
+let groups = ["Test Group", "Other Test Group", "more test groups"];
 
 let users = [["James", "Test user"]];
 
@@ -37,9 +37,11 @@ app.get("/api/groups", checkJwt, function (req, resp){
 	resp.send(groups);
 });
 app.get("/api/transactions",  checkJwt, function (req, resp){
+	console.log(req.user);
 	resp.send(transactions);
-})
+});
 app.get("/api/transactions/:groupid",  checkJwt, function (req, resp){
+	console.log(req.user);
 	let group_transactions = [];
 	for(let i = 0; i < transactions.length; i++){
 		if (transactions[i][2] == req.params.groupid){
