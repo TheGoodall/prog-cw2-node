@@ -34,7 +34,6 @@ let groups = [["Test Group", ["5cc5d97b0bd2550ebbe36d2c"]], ["Other Test Group",
 let transactions = [[15, "5cc5d97b0bd2550ebbe36d2c", "Test Group"], [25, "5cc5d97b0bd2550ebbe36d2c", "Test Group"], [-17, "5cc5d97b0bd2550ebbe36d2c", "Test Group"], [15, "5cc5d97b0bd2550ebbe36d2c", "Other Test Group"], [15, "5cc5d97b0bd2550ebbe36d2c", "Other Test Group"]];
 
 
-
 function getToken(callback){
 
 	var request = require("request");
@@ -75,9 +74,7 @@ app.get("/api/groups/byUser/:userid", checkJwt, function (req, resp){
 		}
 		resp.send(groups_to_send);
 	}
-	
-		
-	
+
 });
 app.get("/api/users/byGroup/:groupid",  checkJwt, function (req, resp){
 	resp.send("Not Implemented Yet");
@@ -92,7 +89,6 @@ app.get("/api/transactions/byUser/:userid",  checkJwt, function (req, resp){
 	resp.send("Not Implemented Yet");
 });
 app.get("/api/transactions/byGroup/:groupid",  checkJwt, function (req, resp){
-	console.log(req.user.sub);
 	let group_transactions = [];
 	for(let i = 0; i < transactions.length; i++){
 		if (transactions[i][2] == req.params.groupid){

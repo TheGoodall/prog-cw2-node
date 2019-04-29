@@ -32,8 +32,6 @@ function auth() {
 
 auth();
 
-
-
 async function callApi(endpoint, accessToken){
 	let url = apiUrl + endpoint;
 	let response = await fetch(url, {headers: {"Authorization": "Bearer " + accessToken}});
@@ -69,9 +67,6 @@ function load_group(group, accessToken){
 function load_groups(accessToken){
 
 	auth0.client.userInfo(accessToken, function(err, profile) {
-		console.log()
-		
-	  
 
 		callApi("/api/groups/byUser/"+profile.sub.substring(profile.sub.indexOf("|")+1), accessToken).then(groups => {
 
@@ -88,10 +83,4 @@ function load_groups(accessToken){
 	
 }
 
-
-
 $("#group").collapse("hide");
-
-
-
-
