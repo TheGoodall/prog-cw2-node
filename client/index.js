@@ -68,16 +68,21 @@ function load_group(group, accessToken){
 
 function load_groups(accessToken){
 
-	callApi("/api/groups", accessToken).then(groups => {
+	auth0.client.userInfo(accessToken, function(err, profile) {
+		
+	  
 
-		for(let i = 0; i < groups.length; i++){
-			document.getElementById("groups").innerHTML += "<button type=\"button\" id=\"group_butt_"+groups[i]+"\" class=\"btn btn-secondary\">"+groups[i]+"</button><br><br>";
-		}
-		for(let i = 0; i < groups.length; i++){
-			document.getElementById("group_butt_"+groups[i]).addEventListener("click", function(){
-				load_group(groups[i], accessToken);
-			});
-		}
+		callApi("/api/groups"+profile.user_id, accessToken).then(groups => {
+
+			for(let i = 0; i < groups.length; i++){
+				document.getElementById("groups").innerHTML += "<button type=\"button\" id=\"group_butt_"+groups[i]+"\" class=\"btn btn-secondary\">"+groups[i]+"</button><br><br>";
+			}
+			for(let i = 0; i < groups.length; i++){
+				document.getElementById("group_butt_"+groups[i]).addEventListener("click", function(){
+					load_group(groups[i], accessToken);
+				});
+			}
+		});
 	});
 	
 }
