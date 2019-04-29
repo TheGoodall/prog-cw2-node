@@ -52,7 +52,7 @@ async function callApi(endpoint, accessToken){
 function load_group(group, accessToken){
 	
 	
-	callApi("/api/transactions/"+group, accessToken).then(transactions => {
+	callApi("/api/transactions/byGroup/"+group, accessToken).then(transactions => {
 		document.getElementById("transactions").innerHTML = "<tr><td>Amount</td><td>Name</td></tr>";
 		for(let i = 0; i < transactions.length; i++){
 			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td>"+transactions[i][1]+"</td></tr>";
