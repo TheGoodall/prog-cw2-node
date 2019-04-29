@@ -58,7 +58,7 @@ function getToken(callback){
 	
 }
 
-app.get("/api/groups/:userid", checkJwt, function (req, resp){
+app.get("/api/groups/byUser/:userid", checkJwt, function (req, resp){
 
 	//get id from request and strip the start
 	let id = req.user.sub;
@@ -79,11 +79,19 @@ app.get("/api/groups/:userid", checkJwt, function (req, resp){
 		
 	
 });
-app.get("/api/transactions",  checkJwt, function (req, resp){
-	console.log(req.user.sub);
-	resp.send(transactions);
+app.get("/api/users/byGroup/:groupid",  checkJwt, function (req, resp){
+	resp.send("Not Implemented Yet");
 });
-app.get("/api/transactions/:groupid",  checkJwt, function (req, resp){
+app.get("/api/users/byQuery/:query",  checkJwt, function (req, resp){
+	resp.send("Not Implemented Yet");
+});
+app.get("/api/users/byid/:userid",  checkJwt, function (req, resp){
+	resp.send("Not Implemented Yet");
+});
+app.get("/api/transactions/byUser/:userid",  checkJwt, function (req, resp){
+	resp.send("Not Implemented Yet");
+});
+app.get("/api/transactions/byGroup/:groupid",  checkJwt, function (req, resp){
 	console.log(req.user.sub);
 	let group_transactions = [];
 	for(let i = 0; i < transactions.length; i++){
