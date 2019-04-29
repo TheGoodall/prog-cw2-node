@@ -69,10 +69,11 @@ function load_group(group, accessToken){
 function load_groups(accessToken){
 
 	auth0.client.userInfo(accessToken, function(err, profile) {
+		console.log()
 		
 	  
 
-		callApi("/api/groups"+profile.user_id, accessToken).then(groups => {
+		callApi("/api/groups/"+profile.sub.substring(profile.sub.indexOf("|")+1), accessToken).then(groups => {
 
 			for(let i = 0; i < groups.length; i++){
 				document.getElementById("groups").innerHTML += "<button type=\"button\" id=\"group_butt_"+groups[i]+"\" class=\"btn btn-secondary\">"+groups[i]+"</button><br><br>";

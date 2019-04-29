@@ -27,15 +27,15 @@ app.use(cors({credentials: true, origin: true}));
 app.use(express.static("client"));
 app.use("/admin", checkJwt, checkAdmin, express.static("admin"));
 
-let groups = ["Test Group", "Other Test Group", "more test groups"];
+let groups = [["Test Group", ["5cc5d97b0bd2550ebbe36d2c"]], ["Other Test Group", ["5cc5d97b0bd2550ebbe36d2c"]], ["more test groups", ["5cc5d97b0bd2550ebbe36d2c"]]];
 
 
 
-let transactions = [[15, "James", "Test Group"], [25, "James", "Test Group"], [-17, "James", "Test Group"], [15, "James", "Other Test Group"], [15, "James", "Other Test Group"]];
+let transactions = [[15, "5cc5d97b0bd2550ebbe36d2c", "Test Group"], [25, "5cc5d97b0bd2550ebbe36d2c", "Test Group"], [-17, "5cc5d97b0bd2550ebbe36d2c", "Test Group"], [15, "5cc5d97b0bd2550ebbe36d2c", "Other Test Group"], [15, "5cc5d97b0bd2550ebbe36d2c", "Other Test Group"]];
 
 
 
-function getToken(){
+function getToken(callback){
 
 	var request = require("request");
 
@@ -53,16 +53,31 @@ function getToken(){
 	
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error);
-		console.log(body);
+		callback(body)
 	});
 	
 }
 
-app.get("/api/groups", checkJwt, function (req, resp){
-	console.log(req.user.sub);
-	getToken()
+app.get("/api/groups/:userid", checkJwt, function (req, resp){
+
+	//get id from request and strip the start
+	let id = req.user.sub;
+	id = id.substring(id.indexOf("|")+1);
+
+	//ensure that the user is trying to access their own groups
+	if (req.params.userid == id){
+		
+		let groups_to_send = [];
+		for(let i = 0; i < groups.length; i++){
+			if (groups[i][1].includes(req.params.userid)){
+				groups_to_send.push(groups[i][0]);
+			}
+		}
+		resp.send(groups_to_send);
+	}
 	
-	resp.send(groups);
+		
+	
 });
 app.get("/api/transactions",  checkJwt, function (req, resp){
 	console.log(req.user.sub);
