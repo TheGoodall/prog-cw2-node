@@ -1,12 +1,12 @@
-let apiUrl = "http://localhost:8090";
+let apiUrl = "http://pc.d.frizlette.me:8090";
 
 var auth0 = new window.auth0.WebAuth({
 	clientID: "jdfBWYz21i4sCE0Cs1cZxkxCptc1JkJM",
 	domain: "frizlette.eu.auth0.com",
 	responseType: "token id_token",
-	audience: "http://localhost:8090",
-	redirectUri: "http://localhost:8090",
-	scope: "openid profile",
+	audience: apiUrl,
+	redirectUri: apiUrl,
+	scope: "openid profile name",
 });
 
 
@@ -57,7 +57,8 @@ function load_group(group, accessToken){
 		for(let i = 0; i < transactions.length; i++){
 			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td>"+transactions[i][1]+"</td></tr>";
 		}
-		$("#group").collapse("show");
+		$("#transactions_collapse").collapse("show");
+		$("#group_collapse").collapse("show");
 		$("#new").collapse("show");
 		document.getElementById("groupname").innerHTML = group;	
 	})
@@ -87,20 +88,4 @@ $("#group").collapse("hide");
 
 
 
-document.getElementById("meal_butt").addEventListener("click", function(event){
-/* 	document.getElementById("meal_butt").disabled = true;
-	document.getElementById("shop_butt").disabled = false; */
 
-	document.getElementById("meal_form_div").style="display:block;";
-	document.getElementById("shop_form_div").style="display:none;";
-
-});
-
-document.getElementById("shop_butt").addEventListener("click", function(event){
-/* 	document.getElementById("shop_butt").disabled = true;
-	document.getElementById("meal_butt").disabled = false; */
-
-	document.getElementById("shop_form_div").style="display:block;";
-	document.getElementById("meal_form_div").style="display:none;";
-
-});

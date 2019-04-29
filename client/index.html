@@ -22,45 +22,31 @@
 
 			<div class="jumbotron text-center">
 				<h1>Food!</h1>
-				<p>Manage your group eating</p> 
+				<p>Manage your group spending.</p> 
 				
 
 			</div>
 						
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<h3>Groups</h3>
-						<button id="meal_butt" type="button" class="btn btn-primary">New!</button><br><br>
+						<button id="new_group_button" type="button" class="btn btn-primary">New!</button><br><br>
 						<div id="groups"></div>
 
 							
 					</div>
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<h1 class="row" id="groupname">Select a group!</h1>
-							<div class="row">
-								<div class="col-sm-4">
-									<h3>New:</h3>
-									<div class="collapse" id="new">
-										<div class="card card-body">    
-											<button id="meal_butt" type="button" class="btn btn-primary">Meal</button>
-											<button id="shop_butt" type="button" class="btn btn-primary">Shop</button>
-											<div id="meal_form_div" style="display:none;">
-												<br>
-													meal form
-											</div>
-											<div id="shop_form_div" style="display:none;">
-												<br>
-													shop form
-											</div>
-										</div>
-									</div>
-								</div>
-							<div class="col-sm-3">
-								<h3>Transactions</h3>
-								<div class="collapse" id="group">
+						<div class="row">
+							
+							<div class="col-sm-4">
+								
+								<div class="collapse" id="transactions_collapse">
+									<h3>Transactions</h3>
 									<div class="card card-body">
 										<div >
+											<button id="new_transaction_button" type="button" class="btn btn-primary">New!</button><br><br>
 											<table id=transactions>
 												<tr><td>Amount</td><td>Name</td></tr>
 											</table>
@@ -68,11 +54,12 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-sm-2">
-								<h3>Group</h3>
-								<div class="collapse" id="group">
+							<div class="col-sm-4">
+								<div class="collapse" id="group_collapse">
+									<h3>Group</h3>
 									<div class="card card-body">
 										<div >
+											<button id="add_to_group_button" type="button" class="btn btn-primary">Add!</button><br><br>
 											<table id=balances>
 												<tr><td>Name</td><td>Amount</td></tr>
 											</table>
