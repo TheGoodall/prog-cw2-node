@@ -64,12 +64,15 @@ function load_group(group, accessToken){
 			});
 			
 		}
-		$("#transactions_collapse").collapse("show");
-		$("#group_collapse").collapse("show");
-		$("#new").collapse("show");
-		document.getElementById("groupname").innerHTML = group;	
-	})
+		
+	});
 	
+
+
+	$("#transactions_collapse").collapse("show");
+	$("#group_collapse").collapse("show");
+	$("#new").collapse("show");
+	document.getElementById("groupname").innerHTML = group;	
 
 }
 
