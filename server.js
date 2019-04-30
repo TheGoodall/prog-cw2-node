@@ -109,7 +109,9 @@ app.get("/api/users/byQuery/:query",  checkJwt, function (req, resp){
 });
 app.get("/api/users/byid/:userid",  checkJwt, function (req, resp){
 	getToken(token => {
-		
+		getData("https://frizlette.eu.auth0.com/api/v2/users/"+req.user.sub.substring(req.user.sub.indexOf("|")+1), token, data => {
+			resp.send(data)
+		})
 	})
 });
 app.get("/api/transactions/byUser/:userid",  checkJwt, function (req, resp){

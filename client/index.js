@@ -53,9 +53,9 @@ function load_group(group, accessToken){
 	callApi("/api/transactions/byGroup/"+group, accessToken).then(transactions => {
 		document.getElementById("transactions").innerHTML = "<tr><td>Amount</td><td>Name</td></tr>";
 		for(let i = 0; i < transactions.length; i++){
-			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td id="+transactions[i][1]+"></td></tr>";
+			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td class="+transactions[i][1]+"></td></tr>";
 			callApi("/api/users/byid/"+transactions[i][1], accessToken).then(data => {
-				document.getElementById(data.user_id).innerHTML = data.nickname;
+				document.getElementsByClassName(data.user_id).innerHTML = data.username;
 			})
 			
 		}
