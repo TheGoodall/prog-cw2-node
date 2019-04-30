@@ -57,13 +57,11 @@ function load_group(group, accessToken){
 			callApi("/api/users/byid/"+transactions[i][1], accessToken).then(data => {
 
 				let fields = document.getElementsByClassName(transactions[i][1])
-				console.log(fields)
-				for (let i = 0; i < fields.length, i++;){
-					console.log(fields[i])
-					console.log(data.name)
+
+				for (let i = 0; i < fields.length; i++){
 					fields[i].innerHTML = data.name;
 				} 
-			})
+			});
 			
 		}
 		$("#transactions_collapse").collapse("show");
