@@ -141,7 +141,7 @@ document.getElementById("add_to_group_button").addEventListener("click", functio
 	load_users();
 })
 
-
+// New group creation:
 function new_group(){
 	$("#new_group_collapse").collapse("hide");
 	load_groups()
@@ -154,5 +154,21 @@ document.getElementById("new_group_button").addEventListener("click", function()
 document.getElementById("new_group_save_button").addEventListener("click", function(){new_group()});
 
 
+
+// New transaction creation:
+function new_transaction(){
+	$("#new_transaction_collapse").collapse("hide");
+	load_group();
+}
+
+document.getElementById("new_transaction_button").addEventListener("click", function(){
+	$("#new_transaction_collapse").collapse("toggle");
+})
+
+document.getElementById("new_transaction_save_button").addEventListener("click", function(){new_transaction();});
+
+
+
+
 auth();
-$("#group").collapse("hide");
+//$("#group").collapse("hide");

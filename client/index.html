@@ -27,7 +27,7 @@
 
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-4">
+					<div class="col-sm-3">
 						<h3>Groups</h3>
 						<button id="new_group_button" type="button" class="btn btn-primary">New!</button>
 
@@ -52,17 +52,33 @@
 
 							
 					</div>
-					<div class="col-sm-8">
+					<div class="col-sm-9">
 						<h1 class="row" id="groupname">Select a group!</h1>
 						<div class="row">
 							
-							<div class="col-sm-4">
+							<div class="col-sm-8">
 								
 								<div class="collapse" id="transactions_collapse">
 									<h3>Transactions</h3>
 									<div class="card card-body">
 										<div >
 											<button id="new_transaction_button" type="button" class="btn btn-primary">New!</button><br><br>
+
+											<div class="collapse" id="new_transaction_collapse">
+												<div class="card card-body">
+													<br>
+													<hr>
+													<br>
+													<form>
+														<button type="button" class="btn btn-primary" id="new_transaction_save_button">Save</button>
+													</form>
+													<br>
+													<hr>
+													<br>
+												</div>
+											</div>
+
+
 											<table id=transactions>
 												<tr><td>Amount</td><td>Name</td></tr>
 											</table>
