@@ -58,16 +58,23 @@ function load_group(group){
 		callApi("/api/users/byGroup/"+group).then(data => {
 			document.getElementById("balances").innerHTML = "<tr><td>Name</td><td>Balance</td></tr>";
 			for (let i = 0; i < data.length; i++){
-				callApi("/api/users/byid/"+data[i]).then(user_profile => {
+				callApi("/api/users/byid/"+data[i][0]).then(user_profile => {
 					let name = user_profile.name;
 					let balance = 0;
+					let admin = data[i][1];
+					let adminstring = "";
+
+					if (admin == true){
+						adminstring = "Admin"
+					}
+
 					for (let i = 0; i < transactions.length; i++){
 						if (transactions[i][1] == user_profile.user_id){
 							balance += transactions[i][0];
 						}
 					}
 
-					document.getElementById("balances").innerHTML += "<tr><td>"+name+"</td><td>"+balance+"</td></tr>";
+					document.getElementById("balances").innerHTML += "<tr><td>"+name+"</td><td>"+balance+"</td><td>"+adminstring+"</td></tr>";
 				});
 			}
 			
