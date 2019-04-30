@@ -82,9 +82,9 @@ function load_group(group){
 
 		//back to filling in the transactions collumn
 
-		document.getElementById("transactions").innerHTML = "<tr><td>Amount</td><td>Name</td></tr>";
+		document.getElementById("transactions").innerHTML = "<tr><td>Amount</td><td>Name</td><td>Date</td></tr>";
 		for(let i = 0; i < transactions.length; i++){
-			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td class="+transactions[i][1]+"></td></tr>";
+			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td class="+transactions[i][1]+"></td></tr><td>"+transactions[i][3]+"</td>";
 			callApi("/api/users/byid/"+transactions[i][1]).then(data => {
 
 				let fields = document.getElementsByClassName(transactions[i][1])

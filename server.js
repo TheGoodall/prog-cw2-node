@@ -39,7 +39,13 @@ let groups = [
 
 
 
-let transactions = [[15, "auth0|5cc5d97b0bd2550ebbe36d2c", "Test Group"], [25, "google-oauth2|114880290605117536405", "Test Group"], [-17, "google-oauth2|114880290605117536405", "Test Group"], [15, "google-oauth2|114880290605117536405", "Other Test Group"], [15, "google-oauth2|114880290605117536405", "Other Test Group"]];
+let transactions = [
+	[15, "auth0|5cc5d97b0bd2550ebbe36d2c", "Test Group", new Date(2019, 4, 30, 17, 35, 27, 672)], 
+	[25, "google-oauth2|114880290605117536405", "Test Group", new Date(2019, 4, 30, 16, 35, 27, 672)], 
+	[-17, "google-oauth2|114880290605117536405", "Test Group", new Date(2019, 4, 30, 15, 35, 27, 672)], 
+	[15, "google-oauth2|114880290605117536405", "Other Test Group", new Date(2019, 4, 30, 14, 35, 27, 672)], 
+	[15, "google-oauth2|114880290605117536405", "Other Test Group", new Date(2019, 4, 30, 13, 35, 27, 672)]
+];
 
 
 function getToken(callback){
