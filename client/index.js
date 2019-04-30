@@ -121,6 +121,7 @@ function load_groups(){
 
 
 function load_users(){
+	document.getElementById("spinner_area").innerHTML = "<div class=\"spinner-border text-primary\" role=\"status\"><span class=\"sr-only\">Loading...</span></div>";
 	let query = document.getElementById("add_user_query").value;
 
 	callApi("/api/users/byQuery/"+query).then(data => {
@@ -131,6 +132,7 @@ function load_users(){
 			console.log(data[i])
 			document.getElementById("add_user_names_table").innerHTML += "<tr><td><img src="+image+" height=\"42\" width=\"42\"></td><td>"+name+"</td></tr>"
 		}
+		document.getElementById("spinner_area").innerHTML = "";
 	})
 }
 document.getElementById("add_to_group_button").addEventListener("click", function(){
