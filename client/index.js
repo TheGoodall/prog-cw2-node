@@ -33,7 +33,7 @@ function auth() {
 auth();
 
 async function callApi(endpoint, accessToken){
-	let url = apiUrl + endpoint;
+	let url = apiUrl + encodeURI(endpoint);
 	let response = await fetch(url, {headers: {"Authorization": "Bearer " + accessToken}});
 	let body = await response.text();
 	let err = response.status;
