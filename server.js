@@ -82,6 +82,8 @@ function getData(endpoint, token, callback){
 	
 }
 
+// Get request API
+
 app.get("/api/groups/byUser/:userid", checkJwt, function (req, resp){
 
 	let groups_to_send = [];
@@ -143,6 +145,59 @@ app.get("/api/transactions/byGroup/:groupid",  checkJwt, function (req, resp){
 	}
 	resp.send(group_transactions);
 	
+});
+
+
+//Post request API
+
+app.post("/api/group/addUser/:groupid/:userid", checkJwt, function (req, resp){
+	let group = req.params.groupid;
+	let user = req.params.userid;
+	let requester = req.user.sub;
+	let validGroup = false;
+	let requesterAdminInGroup = false;
+	let already_in_group = false;
+
+	let server_group = [];
+
+	for(let i = 0; i < groups.length; i++){
+		if (groups[i][0] == group){
+			validGroup = true;
+			server_group = groups[i];
+		}
+	}
+	if (validGroup ==false){
+		resp.sendStatus(404);
+	} else {
+		getToken(token => {
+			getData("https://frizlette.eu.auth0.com/api/v2/users/"+user, token, data => {
+				if (data.error){resp.sendStatus(404)} else {
+
+					for(let i = 0; i < server_group[1].length; i++){
+						if ((server_group[1][i][0] == requester ) && (server_group[1][i][1] == true)){
+							requesterAdminInGroup = true;
+						}
+						if (server_group[1][i][0] == user){
+							already_in_group = true;
+						}
+					}
+
+					if (requesterAdminInGroup && !already_in_group){
+						server_group[1].push([user, false])
+						resp.sendStatus(200)
+					} else if (already_in_group){
+						resp.sendStatus(409)
+					} else {
+						resp.sendStatus(403)
+					}
+
+				}
+			});
+		});
+	}
+
+
+
 });
 
 
