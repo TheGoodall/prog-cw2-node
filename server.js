@@ -14,7 +14,7 @@ const checkJwt = jwt({
 		jwksRequestsPerMinute: 5,
 		jwksUri: "https://frizlette.eu.auth0.com/.well-known/jwks.json",
 	}),
-	audience: "http://pc.d.frizlette.me:8090",
+	audience: "http://localhost:8090",
 	issuer: "https://frizlette.eu.auth0.com/",
 	algorithms: [ "RS256" ],
 });

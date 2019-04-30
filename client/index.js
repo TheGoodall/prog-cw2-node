@@ -1,4 +1,4 @@
-let apiUrl = "http://pc.d.frizlette.me:8090";
+let apiUrl = "http://localhost:8090";
 
 var auth0 = new window.auth0.WebAuth({
 	clientID: "jdfBWYz21i4sCE0Cs1cZxkxCptc1JkJM",
