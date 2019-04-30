@@ -138,5 +138,18 @@ document.getElementById("add_to_group_button").addEventListener("click", functio
 	load_users();
 })
 
+
+function new_group(){
+
+	load_groups()
+}
+
+document.getElementById("new_group_button").addEventListener("click", function(){
+	$("#new_group_collapse").collapse("toggle");
+})
+
+document.getElementById("new_group_save_button").addEventListener("click", new_group());
+
+
 auth();
 $("#group").collapse("hide");

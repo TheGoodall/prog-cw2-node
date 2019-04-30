@@ -33,7 +33,25 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<h3>Groups</h3>
-						<button id="new_group_button" type="button" class="btn btn-primary">New!</button><br><br>
+						<button id="new_group_button" type="button" class="btn btn-primary">New!</button>
+
+						<div class="collapse" id="new_group_collapse">
+							<div class="card card-body">
+								<br>
+								<hr>
+								<br>
+								<form>
+									<label for="add_user_query" class="col-form-label">Name:</label>
+									<input type="text" class="new_group_name" id="new_group_name">
+									<button type="button" class="btn btn-primary" id="new_group_save_button">Save</button>
+								</form>
+								<br>
+								<hr>
+								<br>
+							</div>
+						</div>
+						
+						<br><br>
 						<div id="groups"></div>
 
 							
