@@ -49,8 +49,31 @@ async function callApi(endpoint, accessToken){
 
 function load_group(group, accessToken){
 	
-	
+	//Fill out transactions collumn
 	callApi("/api/transactions/byGroup/"+group, accessToken).then(transactions => {
+
+		//use the data to fill in the group column
+
+		callApi("/api/users/byGroup/"+group, accessToken).then(data => {
+			document.getElementById("balances").innerHTML = "<tr><td>Name</td><td>Balance</td></tr>";
+			for (let i = 0; i < data.length; i++){
+				callApi("/api/users/byid/"+data[i], accessToken).then(user_profile => {
+					let name = user_profile.name;
+					let balance = 0;
+					for (let i = 0; i < transactions.length; i++){
+						if (transactions[i][1] == user_profile.user_id){
+							balance += transactions[i][0];
+						}
+					}
+
+					document.getElementById("balances").innerHTML += "<tr><td>"+name+"</td><td>"+balance+"</td></tr>";
+				});
+			}
+			
+		});
+
+		//back to filling in the transactions collumn
+
 		document.getElementById("transactions").innerHTML = "<tr><td>Amount</td><td>Name</td></tr>";
 		for(let i = 0; i < transactions.length; i++){
 			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td class="+transactions[i][1]+"></td></tr>";
@@ -67,7 +90,7 @@ function load_group(group, accessToken){
 		
 	});
 
-
+	
 
 	$("#transactions_collapse").collapse("show");
 	$("#group_collapse").collapse("show");
