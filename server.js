@@ -101,7 +101,22 @@ app.get("/api/users/byGroup/:groupid",  checkJwt, function (req, resp){
 			group_to_send = groups[i][1][0];
 		}
 	}
-	resp.send(group_to_send);
+	
+	//check user is in group to be returned
+	let userfound = false;
+	for(let i = 0; i < group_to_send.length; i++){
+		if (group_to_send[1][i][0] == req.user.sub){
+			userfound = true;
+		}
+	}
+	
+	if (userfound == true){
+		resp.send(group_to_send);
+	} else {
+		resp.send(403);
+	}
+	
+	
 });
 app.get("/api/users/byQuery/:query",  checkJwt, function (req, resp){
 	getToken(token => {
