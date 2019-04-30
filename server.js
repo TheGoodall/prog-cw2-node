@@ -5,7 +5,7 @@ const jwt = require("express-jwt");
 const jwtAuthz = require("express-jwt-authz");
 const jwksRsa = require("jwks-rsa");
 
-let fetch = require("node-fetch");
+const request = require("request");
 
 const checkJwt = jwt({
 	secret: jwksRsa.expressJwtSecret({
@@ -36,7 +36,7 @@ let transactions = [[15, "5cc5d97b0bd2550ebbe36d2c", "Test Group"], [25, "5cc5d9
 
 function getToken(callback){
 
-	var request = require("request");
+	
 
 	var options = { method: "POST",
 		url: "https://frizlette.eu.auth0.com/oauth/token",
@@ -47,6 +47,25 @@ function getToken(callback){
 			client_id: "xGj40aZOgwwkdPCYzGsRqek3rnnr08lk",
 			client_secret: "3402emeVq4cRzRLiWzkt1Q2h2NmBN4uOjcCsZe4DCE48L3U_sSY_v_zPOZdeb2Fd",
 			audience: "https://frizlette.eu.auth0.com/api/v2/" 
+		}
+	};
+	
+	request(options, function (error, response, body) {
+		if (error) throw new Error(error);
+		callback(body)
+	});
+	
+}
+
+function getData(endpoint, token, callback){
+
+	
+
+	var options = { method: "GET",
+		url: endpoint,
+		headers: {
+			"content-type": "application/x-www-form-urlencoded",
+			"Autherisation":"Bearer "+token
 		}
 	};
 	
@@ -77,13 +96,21 @@ app.get("/api/groups/byUser/:userid", checkJwt, function (req, resp){
 
 });
 app.get("/api/users/byGroup/:groupid",  checkJwt, function (req, resp){
-	resp.send("Not Implemented Yet");
+	let group_to_send = [];
+	for(let i = 0; i < groups.length; i++){
+		if (groups[i][0] == req.params.groupid){
+			group_to_send = groups[i][1];
+		}
+	}
+	resp.send(group_to_send);
 });
 app.get("/api/users/byQuery/:query",  checkJwt, function (req, resp){
 	resp.send("Not Implemented Yet");
 });
 app.get("/api/users/byid/:userid",  checkJwt, function (req, resp){
-	resp.send("Not Implemented Yet");
+	getToken(token => {
+		
+	})
 });
 app.get("/api/transactions/byUser/:userid",  checkJwt, function (req, resp){
 	resp.send("Not Implemented Yet");
