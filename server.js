@@ -52,20 +52,18 @@ function getToken(callback){
 	
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error);
-		callback(body);
+		callback(JSON.parse(body));
 	});
 	
 }
 
 function getData(endpoint, token, callback){
 
-	
-
 	var options = { method: "GET",
 		url: endpoint,
 		headers: {
 			"content-type": "application/x-www-form-urlencoded",
-			"Autherisation":"Bearer "+token
+			"Authorization":"Bearer "+token["access_token"]
 		}
 	};
 	
@@ -109,7 +107,8 @@ app.get("/api/users/byQuery/:query",  checkJwt, function (req, resp){
 });
 app.get("/api/users/byid/:userid",  checkJwt, function (req, resp){
 	getToken(token => {
-		getData("https://frizlette.eu.auth0.com/api/v2/users/"+req.user.sub.substring(req.user.sub.indexOf("|")+1), token, data => {
+		getData("https://frizlette.eu.auth0.com/api/v2/users/"+req.params.userid, token, data => {
+			console.log(data)
 			resp.send(data);
 		});
 	});
