@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 
 const jwt = require("express-jwt");
-const jwtAuthz = require("express-jwt-authz");
 const jwksRsa = require("jwks-rsa");
 
 const request = require("request");
@@ -19,13 +18,11 @@ const checkJwt = jwt({
 	algorithms: [ "RS256" ],
 });
 
-const checkAdmin = jwtAuthz([ "administrate:food" ]);
 
 var cors = require("cors");
 app.use(cors({credentials: true, origin: true}));
 
 app.use(express.static("client"));
-app.use("/admin", checkJwt, checkAdmin, express.static("admin"));
 
 let groups = [["Test Group", ["google-oauth2|114880290605117536405", "auth0|5cc5d97b0bd2550ebbe36d2c"]], ["Other Test Group", ["google-oauth2|114880290605117536405"]], ["more test groups", ["google-oauth2|114880290605117536405"]]];
 
