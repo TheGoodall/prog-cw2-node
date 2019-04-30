@@ -98,14 +98,16 @@ app.get("/api/users/byGroup/:groupid",  checkJwt, function (req, resp){
 	let group_to_send = [];
 	for(let i = 0; i < groups.length; i++){
 		if (groups[i][0] == req.params.groupid){
-			group_to_send = groups[i][1][0];
+			group_to_send = groups[i][1];
 		}
 	}
 	
 	//check user is in group to be returned
 	let userfound = false;
-	for(let i = 0; i < group_to_send.length; i++){
-		if (group_to_send[1][i][0] == req.user.sub){
+
+
+	for(let i = 0; i < group_to_send[1].length; i++){
+		if (group_to_send[i][0] == req.user.sub){
 			userfound = true;
 		}
 	}
@@ -113,7 +115,7 @@ app.get("/api/users/byGroup/:groupid",  checkJwt, function (req, resp){
 	if (userfound == true){
 		resp.send(group_to_send);
 	} else {
-		resp.send(403);
+		resp.sendStatus(403);
 	}
 	
 	
