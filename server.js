@@ -106,7 +106,7 @@ app.get("/api/users/byGroup/:groupid",  checkJwt, function (req, resp){
 	let userfound = false;
 
 
-	for(let i = 0; i < group_to_send[1].length; i++){
+	for(let i = 0; i < group_to_send.length; i++){
 		if (group_to_send[i][0] == req.user.sub){
 			userfound = true;
 		}
