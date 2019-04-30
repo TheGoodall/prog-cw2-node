@@ -105,9 +105,6 @@ app.get("/api/users/byid/:userid",  checkJwt, function (req, resp){
 		});
 	});
 });
-app.get("/api/transactions/byUser/:userid",  checkJwt, function (req, resp){
-	resp.send("Not Implemented Yet");
-});
 app.get("/api/transactions/byGroup/:groupid",  checkJwt, function (req, resp){
 	let group_transactions = [];
 	for(let i = 0; i < transactions.length; i++){
