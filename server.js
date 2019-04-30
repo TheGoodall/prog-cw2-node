@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 
 const jwt = require("express-jwt");
-const jwtAuthz = require("express-jwt-authz");
 const jwksRsa = require("jwks-rsa");
 
 const request = require("request");
@@ -19,15 +18,24 @@ const checkJwt = jwt({
 	algorithms: [ "RS256" ],
 });
 
-const checkAdmin = jwtAuthz([ "administrate:food" ]);
 
 var cors = require("cors");
 app.use(cors({credentials: true, origin: true}));
 
 app.use(express.static("client"));
-app.use("/admin", checkJwt, checkAdmin, express.static("admin"));
 
-let groups = [["Test Group", ["google-oauth2|114880290605117536405", "auth0|5cc5d97b0bd2550ebbe36d2c"]], ["Other Test Group", ["google-oauth2|114880290605117536405"]], ["more test groups", ["google-oauth2|114880290605117536405"]]];
+let groups = [
+	["Test Group", [
+		["google-oauth2|114880290605117536405", true],
+		["auth0|5cc5d97b0bd2550ebbe36d2c", true]
+	]],
+	["Other Test Group", [
+		["google-oauth2|114880290605117536405", false]
+	]],
+	["more test groups", [
+		["auth0|5cc5d97b0bd2550ebbe36d2c", true]
+	]]
+];
 
 
 
@@ -75,10 +83,10 @@ function getData(endpoint, token, callback){
 }
 
 app.get("/api/groups/byUser/:userid", checkJwt, function (req, resp){
-	console.log("sending groups")
+
 	let groups_to_send = [];
 	for(let i = 0; i < groups.length; i++){
-		if (groups[i][1].includes(req.params.userid)){
+		if (groups[i][1][0].includes(req.params.userid)){
 			groups_to_send.push(groups[i][0]);
 		}
 	}
@@ -90,24 +98,24 @@ app.get("/api/users/byGroup/:groupid",  checkJwt, function (req, resp){
 	let group_to_send = [];
 	for(let i = 0; i < groups.length; i++){
 		if (groups[i][0] == req.params.groupid){
-			group_to_send = groups[i][1];
+			group_to_send = groups[i][1][0];
 		}
 	}
 	resp.send(group_to_send);
 });
 app.get("/api/users/byQuery/:query",  checkJwt, function (req, resp){
-	resp.send("Not Implemented Yet");
-});
-app.get("/api/users/byid/:userid",  checkJwt, function (req, resp){
 	getToken(token => {
-		getData("https://frizlette.eu.auth0.com/api/v2/users/"+req.params.userid, token, data => {
-			console.log(data)
+		getData("https://frizlette.eu.auth0.com/api/v2/users?per_page=10&q="+req.params.query, token, data => {
 			resp.send(data);
 		});
 	});
 });
-app.get("/api/transactions/byUser/:userid",  checkJwt, function (req, resp){
-	resp.send("Not Implemented Yet");
+app.get("/api/users/byid/:userid",  checkJwt, function (req, resp){
+	getToken(token => {
+		getData("https://frizlette.eu.auth0.com/api/v2/users/"+req.params.userid, token, data => {
+			resp.send(data);
+		});
+	});
 });
 app.get("/api/transactions/byGroup/:groupid",  checkJwt, function (req, resp){
 	let group_transactions = [];
