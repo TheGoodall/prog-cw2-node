@@ -27,11 +27,11 @@ app.use(cors({credentials: true, origin: true}));
 app.use(express.static("client"));
 app.use("/admin", checkJwt, checkAdmin, express.static("admin"));
 
-let groups = [["Test Group", ["google-oauth2|114880290605117536405"]], ["Other Test Group", ["google-oauth2|114880290605117536405"]], ["more test groups", ["google-oauth2|114880290605117536405"]]];
+let groups = [["Test Group", ["google-oauth2|114880290605117536405", "auth0|5cc5d97b0bd2550ebbe36d2c"]], ["Other Test Group", ["google-oauth2|114880290605117536405"]], ["more test groups", ["google-oauth2|114880290605117536405"]]];
 
 
 
-let transactions = [[15, "google-oauth2|114880290605117536405", "Test Group"], [25, "google-oauth2|114880290605117536405", "Test Group"], [-17, "google-oauth2|114880290605117536405", "Test Group"], [15, "google-oauth2|114880290605117536405", "Other Test Group"], [15, "google-oauth2|114880290605117536405", "Other Test Group"]];
+let transactions = [[15, "auth0|5cc5d97b0bd2550ebbe36d2c", "Test Group"], [25, "google-oauth2|114880290605117536405", "Test Group"], [-17, "google-oauth2|114880290605117536405", "Test Group"], [15, "google-oauth2|114880290605117536405", "Other Test Group"], [15, "google-oauth2|114880290605117536405", "Other Test Group"]];
 
 
 function getToken(callback){
@@ -75,6 +75,7 @@ function getData(endpoint, token, callback){
 }
 
 app.get("/api/groups/byUser/:userid", checkJwt, function (req, resp){
+	console.log("sending groups")
 	let groups_to_send = [];
 	for(let i = 0; i < groups.length; i++){
 		if (groups[i][1].includes(req.params.userid)){
