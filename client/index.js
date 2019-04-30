@@ -30,7 +30,7 @@ function auth() {
 	}
 }
 
-auth();
+
 
 async function callApi(endpoint, accessToken){
 	let url = apiUrl + encodeURI(endpoint);
@@ -118,4 +118,13 @@ function load_groups(accessToken){
 	
 }
 
+
+function load_users(){
+	console.log("loading users")
+}
+document.getElementById("add_to_group_button").addEventListener("click", function(){
+	load_users()
+})
+
+auth();
 $("#group").collapse("hide");
