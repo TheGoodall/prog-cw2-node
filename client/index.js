@@ -9,7 +9,7 @@ var auth0 = new window.auth0.WebAuth({
 	scope: "openid profile name",
 });
 
-
+let accessToken = ""
 
 function auth() {
 	var hash = window.location.hash;
@@ -25,14 +25,15 @@ function auth() {
 		} else if (!authResult) {
 			auth0.checkSession({}, handleParseHash);
 		} else if (authResult) {
-			load_groups(authResult.accessToken);
+			accessToken = authResult.accessToken;
+			load_groups();
 		}
 	}
 }
 
 
 
-async function callApi(endpoint, accessToken){
+async function callApi(endpoint){
 	let url = apiUrl + encodeURI(endpoint);
 	let response = await fetch(url, {headers: {"Authorization": "Bearer " + accessToken}});
 	let body = await response.text();
@@ -47,17 +48,17 @@ async function callApi(endpoint, accessToken){
 	return data;
 }
 
-function load_group(group, accessToken){
+function load_group(group){
 	
 	//Fill out transactions collumn
-	callApi("/api/transactions/byGroup/"+group, accessToken).then(transactions => {
+	callApi("/api/transactions/byGroup/"+group).then(transactions => {
 
 		//use the data to fill in the group column
 
-		callApi("/api/users/byGroup/"+group, accessToken).then(data => {
+		callApi("/api/users/byGroup/"+group).then(data => {
 			document.getElementById("balances").innerHTML = "<tr><td>Name</td><td>Balance</td></tr>";
 			for (let i = 0; i < data.length; i++){
-				callApi("/api/users/byid/"+data[i], accessToken).then(user_profile => {
+				callApi("/api/users/byid/"+data[i]).then(user_profile => {
 					let name = user_profile.name;
 					let balance = 0;
 					for (let i = 0; i < transactions.length; i++){
@@ -77,7 +78,7 @@ function load_group(group, accessToken){
 		document.getElementById("transactions").innerHTML = "<tr><td>Amount</td><td>Name</td></tr>";
 		for(let i = 0; i < transactions.length; i++){
 			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td class="+transactions[i][1]+"></td></tr>";
-			callApi("/api/users/byid/"+transactions[i][1], accessToken).then(data => {
+			callApi("/api/users/byid/"+transactions[i][1]).then(data => {
 
 				let fields = document.getElementsByClassName(transactions[i][1])
 
@@ -99,18 +100,18 @@ function load_group(group, accessToken){
 
 }
 
-function load_groups(accessToken){
+function load_groups(){
 
 	auth0.client.userInfo(accessToken, function(err, profile) {
 
-		callApi("/api/groups/byUser/"+profile.sub, accessToken).then(groups => {
+		callApi("/api/groups/byUser/"+profile.sub).then(groups => {
 
 			for(let i = 0; i < groups.length; i++){
 				document.getElementById("groups").innerHTML += "<button type=\"button\" id=\"group_butt_"+groups[i]+"\" class=\"btn btn-secondary\">"+groups[i]+"</button><br><br>";
 			}
 			for(let i = 0; i < groups.length; i++){
 				document.getElementById("group_butt_"+groups[i]).addEventListener("click", function(){
-					load_group(groups[i], accessToken);
+					load_group(groups[i]);
 				});
 			}
 		});
