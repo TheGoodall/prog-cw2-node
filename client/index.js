@@ -84,7 +84,7 @@ function load_group(group){
 
 		document.getElementById("transactions").innerHTML = "<tr><td>Amount</td><td>Name</td><td>Date</td></tr>";
 		for(let i = 0; i < transactions.length; i++){
-			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td class="+transactions[i][1]+"></td></tr><td>"+transactions[i][3]+"</td>";
+			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td class="+transactions[i][1]+"></td><td>"+transactions[i][3]+"</td></tr>";
 			callApi("/api/users/byid/"+transactions[i][1]).then(data => {
 
 				let fields = document.getElementsByClassName(transactions[i][1])
