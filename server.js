@@ -93,7 +93,11 @@ app.get("/api/users/byGroup/:groupid",  checkJwt, function (req, resp){
 	resp.send(group_to_send);
 });
 app.get("/api/users/byQuery/:query",  checkJwt, function (req, resp){
-	resp.send("Not Implemented Yet");
+	getToken(token => {
+		getData("https://frizlette.eu.auth0.com/api/v2/users?per_page=10&q="+req.params.query, token, data => {
+			resp.send(data);
+		});
+	});
 });
 app.get("/api/users/byid/:userid",  checkJwt, function (req, resp){
 	getToken(token => {
