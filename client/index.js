@@ -142,7 +142,7 @@ document.getElementById("add_to_group_button").addEventListener("click", functio
 
 
 function new_group(){
-
+	$("#new_group_collapse").collapse("hide");
 	load_groups()
 }
 
@@ -150,7 +150,7 @@ document.getElementById("new_group_button").addEventListener("click", function()
 	$("#new_group_collapse").collapse("toggle");
 })
 
-document.getElementById("new_group_save_button").addEventListener("click", new_group());
+document.getElementById("new_group_save_button").addEventListener("click", function(){new_group()});
 
 
 auth();
