@@ -66,24 +66,7 @@ function load_group(group, accessToken){
 		}
 		
 	});
-	callApi("/api/users/byGroup/"+group, accessToken).then(users => {
-		document.getElementById("balances").innerHTML = "<tr><td>Name</td><td>Balance</td></tr>";
-		for(let i = 0; i < users.length; i++){
 
-			
-			document.getElementById("balances").innerHTML += "<tr><td>"+users[i][0]+"</td><td class="+users[i][1]+"></td></tr>";
-			callApi("/api/users/byid/"+users[i][1], accessToken).then(data => {
-
-				let fields = document.getElementsByClassName(users[i][1])
-
-				for (let i = 0; i < fields.length; i++){
-					fields[i].innerHTML = data.name;
-				} 
-			});
-			
-		}
-		
-	});
 
 
 	$("#transactions_collapse").collapse("show");
