@@ -177,7 +177,7 @@ app.post("/api/group/addUser/:groupid/:userid", checkJwt, function (req, resp){
 	} else {
 		getToken(token => {
 			getData("https://frizlette.eu.auth0.com/api/v2/users/"+user, token, data => {
-				if (data.error){resp.sendStatus(404)} else {
+				if (data.error){resp.sendStatus(404);} else {
 
 					for(let i = 0; i < server_group[1].length; i++){
 						if ((server_group[1][i][0] == requester ) && (server_group[1][i][1] == true)){
@@ -189,12 +189,12 @@ app.post("/api/group/addUser/:groupid/:userid", checkJwt, function (req, resp){
 					}
 
 					if (requesterAdminInGroup && !already_in_group){
-						server_group[1].push([user, false])
-						resp.sendStatus(200)
+						server_group[1].push([user, false]);
+						resp.sendStatus(200);
 					} else if (already_in_group){
-						resp.sendStatus(409)
+						resp.sendStatus(409);
 					} else {
-						resp.sendStatus(403)
+						resp.sendStatus(403);
 					}
 
 				}
