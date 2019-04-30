@@ -24,7 +24,18 @@ app.use(cors({credentials: true, origin: true}));
 
 app.use(express.static("client"));
 
-let groups = [["Test Group", ["google-oauth2|114880290605117536405", "auth0|5cc5d97b0bd2550ebbe36d2c"]], ["Other Test Group", ["google-oauth2|114880290605117536405"]], ["more test groups", ["google-oauth2|114880290605117536405"]]];
+let groups = [
+	["Test Group", [
+		["google-oauth2|114880290605117536405", true],
+		["auth0|5cc5d97b0bd2550ebbe36d2c", true]
+	]],
+	["Other Test Group", [
+		["google-oauth2|114880290605117536405", false]
+	]],
+	["more test groups", [
+		["auth0|5cc5d97b0bd2550ebbe36d2c", true]
+	]]
+];
 
 
 
@@ -75,7 +86,7 @@ app.get("/api/groups/byUser/:userid", checkJwt, function (req, resp){
 
 	let groups_to_send = [];
 	for(let i = 0; i < groups.length; i++){
-		if (groups[i][1].includes(req.params.userid)){
+		if (groups[i][1][0].includes(req.params.userid)){
 			groups_to_send.push(groups[i][0]);
 		}
 	}
@@ -87,7 +98,7 @@ app.get("/api/users/byGroup/:groupid",  checkJwt, function (req, resp){
 	let group_to_send = [];
 	for(let i = 0; i < groups.length; i++){
 		if (groups[i][0] == req.params.groupid){
-			group_to_send = groups[i][1];
+			group_to_send = groups[i][1][0];
 		}
 	}
 	resp.send(group_to_send);
