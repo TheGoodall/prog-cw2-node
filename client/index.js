@@ -121,10 +121,21 @@ function load_groups(){
 
 
 function load_users(){
-	console.log("loading users")
+	let query = document.getElementById("add_user_query").value;
+
+	callApi("/api/users/byQuery/"+query).then(data => {
+		document.getElementById("add_user_names_area").innerHTML = "<table id=add_user_names_table></table>"
+		for (let i = 0; i < data.length; i++){
+			name = data[i].name
+			image = data[i].picture
+			console.log(data[i])
+			document.getElementById("add_user_names_table").innerHTML += "<tr><td><img src="+image+" height=\"42\" width=\"42\"></td><td>"+name+"</td></tr>"
+		}
+	})
 }
 document.getElementById("add_to_group_button").addEventListener("click", function(){
-	load_users()
+	$("#add_to_group_collapse").collapse("toggle");
+	load_users();
 })
 
 auth();
