@@ -105,6 +105,7 @@ function load_groups(){
 	auth0.client.userInfo(accessToken, function(err, profile) {
 
 		callApi("/api/groups/byUser/"+profile.sub).then(groups => {
+			document.getElementById("groups").innerHTML = "";
 
 			for(let i = 0; i < groups.length; i++){
 				document.getElementById("groups").innerHTML += "<button type=\"button\" id=\"group_butt_"+groups[i]+"\" class=\"btn btn-secondary\">"+groups[i]+"</button><br><br>";
