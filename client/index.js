@@ -55,7 +55,9 @@ function load_group(group, accessToken){
 		for(let i = 0; i < transactions.length; i++){
 			document.getElementById("transactions").innerHTML += "<tr><td>"+transactions[i][0]+"</td><td class="+transactions[i][1]+"></td></tr>";
 			callApi("/api/users/byid/"+transactions[i][1], accessToken).then(data => {
-				document.getElementsByClassName(data.user_id).innerHTML = data.username;
+				console.log(data)
+				let fields = document.getElementsByClassName(transactions[i][1])
+				for let i = innerHTML = data.name;
 			})
 			
 		}
