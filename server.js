@@ -75,7 +75,7 @@ function getData(endpoint, token, callback){
 }
 
 app.get("/api/groups/byUser/:userid", checkJwt, function (req, resp){
-	console.log("sending groups")
+
 	let groups_to_send = [];
 	for(let i = 0; i < groups.length; i++){
 		if (groups[i][1].includes(req.params.userid)){
@@ -101,7 +101,6 @@ app.get("/api/users/byQuery/:query",  checkJwt, function (req, resp){
 app.get("/api/users/byid/:userid",  checkJwt, function (req, resp){
 	getToken(token => {
 		getData("https://frizlette.eu.auth0.com/api/v2/users/"+req.params.userid, token, data => {
-			console.log(data)
 			resp.send(data);
 		});
 	});
