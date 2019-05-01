@@ -13,6 +13,8 @@ let accessToken = "";
 
 let currentGroup = "";
 
+let currentUser = "";
+
 function auth() {
 	var hash = window.location.hash;
 	if (hash === "") {
@@ -148,6 +150,7 @@ function load_group(group){
 function load_groups(){
 
 	auth0.client.userInfo(accessToken, function(err, profile) {
+		currentUser = profile.sub;
 
 		callApi("/api/groups/byUser/"+profile.sub).then(groups => {
 			document.getElementById("groups").innerHTML = "";
@@ -202,7 +205,9 @@ document.getElementById("add_to_group_button").addEventListener("click", functio
 // New group creation:
 function new_group(){
 	$("#new_group_collapse").collapse("hide");
-	load_groups();
+	let newname = document.getElementById("new_group_name").value;
+	postApi("/api/groups/newGroup/"+newname).then(load_groups());
+	
 }
 
 document.getElementById("new_group_button").addEventListener("click", function(){
@@ -216,7 +221,9 @@ document.getElementById("new_group_save_button").addEventListener("click", funct
 // New transaction creation:
 function new_transaction(){
 	$("#new_transaction_collapse").collapse("hide");
-	load_group(currentGroup);
+
+	postApi("/api/transactions/newTransaction/"+currentGroup+"/"+currentUser+"/"+document.getElementById("new_transaction_value").value).then(load_group(currentGroup));
+	
 }
 
 document.getElementById("new_transaction_button").addEventListener("click", function(){
@@ -229,4 +236,3 @@ document.getElementById("new_transaction_save_button").addEventListener("click",
 
 
 auth();
-//$("#group").collapse("hide");
