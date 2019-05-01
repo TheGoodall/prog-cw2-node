@@ -11,6 +11,8 @@ var auth0 = new window.auth0.WebAuth({
 
 let accessToken = "";
 
+let currentGroup = "";
+
 function auth() {
 	var hash = window.location.hash;
 	if (hash === "") {
@@ -48,7 +50,17 @@ async function callApi(endpoint){
 	return data;
 }
 
+
+async function postApi(endpoint){
+	let url = apiUrl + encodeURI(endpoint);
+	let response = await fetch(url, {headers: {"Authorization": "Bearer " + accessToken}, method:"POST"});
+	let err = response.status;
+
+	return err;
+}
+
 function load_group(group){
+	currentGroup = group;
 	
 	//Fill out transactions collumn
 	callApi("/api/transactions/byGroup/"+group).then(transactions => {
@@ -137,7 +149,21 @@ function load_users(){
 		for (let i = 0; i < data.length; i++){
 			let name = data[i].name;
 			let image = data[i].picture;
-			document.getElementById("add_user_names_table").innerHTML += "<tr><td><img src="+image+" height=\"42\" width=\"42\"></td><td>"+name+"</td></tr>";
+			let userid = data[i].user_id;
+			document.getElementById("add_user_names_table").innerHTML += "<tr id=\""+userid+"\"><td><img src="+image+" height=\"42\" width=\"42\"></td><td>"+name+"</td></tr>";
+			document.getElementById(userid).addEventListener("click", function (){
+				postApi("/api/group/addUser/"+currentGroup+"/"+userid).then(status => {
+					if (status == 404 | status == 403){
+						alert("Error, Something has gone wrong");
+					} else if (status == 409){
+						alert("Error, that user is in that group already!")
+					}
+				})
+				$("#add_to_group_collapse").collapse("hide");
+				load_group(currentGroup)
+
+
+			})
 		}
 		document.getElementById("spinner_area").innerHTML = "";
 	});
@@ -164,7 +190,7 @@ document.getElementById("new_group_save_button").addEventListener("click", funct
 // New transaction creation:
 function new_transaction(){
 	$("#new_transaction_collapse").collapse("hide");
-	load_group();
+	load_group(currentGroup);
 }
 
 document.getElementById("new_transaction_button").addEventListener("click", function(){
