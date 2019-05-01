@@ -252,4 +252,52 @@ app.post("/api/groups/newGroup/:groupname", checkJwt, function (req, resp) {
 	}
 })
 
+app.post("/api/groups/removeUser/:groupid/:userid", checkJwt, function (req, resp){
+	let groupid = req.params.groupid;
+	let userid = req.params.userid;
+	let requester = req.user.sub;
+
+	let isValidGroup = false;
+	let validGroup = []
+	let userInGroup = false;
+	let requesterAdminInGroup = false;
+	let requesterIsUser = false;
+
+	let indexToRemove = 0;
+	let validGroupIndex = 0;
+
+
+	for(let i = 0; i < groups.length; i++){
+		if (groups[i][0] == groupid){
+			isValidGroup = true;
+			validGroup = groups[i]
+			validGroupIndex = i;
+		}
+	}
+	for(let i = 0; i < validGroup[1].length; i++){
+		if (validGroup[1][i][0] == userid){
+			userInGroup = true;
+			indexToRemove = i;
+		}
+	}
+	for(let i = 0; i < validGroup[1].length; i++){
+		if ((validGroup[1][i][0] == requester ) && (validGroup[1][i][1] == true)){
+			requesterAdminInGroup = true;
+		}
+	}
+	if (requester == userid){
+		requesterIsUser = true;
+	}
+	if (isValidGroup ==false){
+		resp.sendStatus(404);
+	} else if (!userInGroup){
+		resp.sendStatus(404);
+	} else  if (requesterAdminInGroup == false && requesterIsUser == false){
+		resp.sendStatus(403);
+	} else {
+		groups[validGroupIndex][1].splice( indexToRemove, 1 );
+		resp.sendStatus(200);
+	}
+});
+
 app.listen(8090);
