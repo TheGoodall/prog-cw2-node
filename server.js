@@ -220,21 +220,24 @@ app.post("/api/transactions/newTransaction/:groupid/:userid/:value", checkJwt, f
 			validGroup = true;
 		}
 	}
-	if (validGroup ==false){
+	value = Number(value);
+	if (isNaN(value)){
+		resp.sendStatus(400);
+	} else if (validGroup ==false){
 		resp.sendStatus(404);
 	} else if (requester != user){
-		resp.sendStatus(403)
+		resp.sendStatus(403);
 	} else {
 		getToken(token => {
 			getData("https://frizlette.eu.auth0.com/api/v2/users/"+user, token, data => {
 				if (data.error){resp.sendStatus(404);} else {
 					transactions.push([value, user, group, new Date()]);
-					resp.sendStatus(200)
+					resp.sendStatus(200);
 				}
-			})
-		})
+			});
+		});
 	}
-})
+});
 
 app.post("/api/groups/newGroup/:groupname", checkJwt, function (req, resp) {
 	let groupname = req.params.groupname;
@@ -250,7 +253,7 @@ app.post("/api/groups/newGroup/:groupname", checkJwt, function (req, resp) {
 		groups.push([groupname, [[req.user.sub, true]]]);
 		resp.sendStatus(200);
 	}
-})
+});
 
 app.post("/api/groups/removeUser/:groupid/:userid", checkJwt, function (req, resp){
 	let groupid = req.params.groupid;
@@ -258,7 +261,7 @@ app.post("/api/groups/removeUser/:groupid/:userid", checkJwt, function (req, res
 	let requester = req.user.sub;
 
 	let isValidGroup = false;
-	let validGroup = []
+	let validGroup = [];
 	let userInGroup = false;
 	let requesterAdminInGroup = false;
 	let requesterIsUser = false;
@@ -270,7 +273,7 @@ app.post("/api/groups/removeUser/:groupid/:userid", checkJwt, function (req, res
 	for(let i = 0; i < groups.length; i++){
 		if (groups[i][0] == groupid){
 			isValidGroup = true;
-			validGroup = groups[i]
+			validGroup = groups[i];
 			validGroupIndex = i;
 		}
 	}
