@@ -75,7 +75,7 @@ function load_group(group){
 				let logged_in_user_is_admin = false;
 				for (let i = 0; i<data.length; i++){
 					if (data[i][0] == profile.sub && data[i][1] == true){
-						logged_in_user_is_admin = true
+						logged_in_user_is_admin = true;
 					}
 				}
 
@@ -88,7 +88,7 @@ function load_group(group){
 						let buttonstring = "";
 						if (logged_in_user_is_admin && profile.sub !== user_profile.user_id){
 
-							buttonstring = "<button id=\"remove_from_group_"+user_profile.user_id+"\" type=\"button\" class=\"btn btn-danger\">Remove</button>"
+							buttonstring = "<button id=\"remove_from_group_"+user_profile.user_id+"\" type=\"button\" class=\"btn btn-danger\">Remove</button>";
 						}
 
 
@@ -185,14 +185,14 @@ function load_users(){
 					if (status == 404 | status == 403){
 						alert("Error, Something has gone wrong");
 					} else if (status == 409){
-						alert("Error, that user is in that group already!")
+						alert("Error, that user is in that group already!");
 					}
-				})
+				});
 				$("#add_to_group_collapse").collapse("hide");
-				load_group(currentGroup)
+				load_group(currentGroup);
 
 
-			})
+			});
 		}
 		document.getElementById("spinner_area").innerHTML = "";
 	});
