@@ -206,6 +206,34 @@ app.post("/api/group/addUser/:groupid/:userid", checkJwt, function (req, resp){
 
 });
 
+app.post("/api/transactions/newTransaction/:groupid/:userid/:value", checkJwt, function (req, resp) {
+	let group = req.params.groupid;
+	let user = req.params.userid;
+	let requester = req.user.sub;
+	let value = req.params.value;
+	let validGroup = false;
 
+
+
+	for(let i = 0; i < groups.length; i++){
+		if (groups[i][0] == group){
+			validGroup = true;
+		}
+	}
+	if (validGroup ==false){
+		resp.sendStatus(404);
+	} else if (requester != user){
+		resp.sendStatus(403)
+	} else {
+		getToken(token => {
+			getData("https://frizlette.eu.auth0.com/api/v2/users/"+user, token, data => {
+				if (data.error){resp.sendStatus(404);} else {
+					transactions.push([value, user, group, new Date()]);
+					resp.sendStatus(200)
+				}
+			})
+		})
+	}
+})
 
 app.listen(8090);
