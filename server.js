@@ -236,4 +236,20 @@ app.post("/api/transactions/newTransaction/:groupid/:userid/:value", checkJwt, f
 	}
 })
 
+app.post("/api/groups/newGroup/:groupname", checkJwt, function (req, resp) {
+	let groupname = req.params.groupname;
+	let alreadyTaken = false;
+	for(let i = 0; i < groups.length; i++){
+		if (groups[i][0] == groupname){
+			alreadyTaken = true;
+		}
+	}
+	if (alreadyTaken){
+		resp.sendStatus(409);
+	} else {
+		groups.push([groupname, [[req.user.sub, true]]]);
+		resp.sendStatus(200);
+	}
+})
+
 app.listen(8090);
