@@ -69,26 +69,52 @@ function load_group(group){
 
 		callApi("/api/users/byGroup/"+group).then(data => {
 			document.getElementById("balances").innerHTML = "<tr><td>Name</td><td>Balance</td></tr>";
-			for (let i = 0; i < data.length; i++){
-				callApi("/api/users/byid/"+data[i][0]).then(user_profile => {
-					let name = user_profile.name;
-					let balance = 0;
-					let admin = data[i][1];
-					let adminstring = "";
-
-					if (admin == true){
-						adminstring = "Admin";
+			auth0.client.userInfo(accessToken, function(err, profile) {
+				let logged_in_user_is_admin = false;
+				for (let i = 0; i<data.length; i++){
+					if (data[i][0] == profile.sub && data[i][1] == true){
+						logged_in_user_is_admin = true
 					}
+				}
 
-					for (let i = 0; i < transactions.length; i++){
-						if (transactions[i][1] == user_profile.user_id){
-							balance += transactions[i][0];
+				for (let i = 0; i < data.length; i++){
+					callApi("/api/users/byid/"+data[i][0]).then(user_profile => {
+						let name = user_profile.name;
+						let balance = 0;
+						let admin = data[i][1];
+						let adminstring = "";
+						let buttonstring = "";
+						if (logged_in_user_is_admin && profile.sub !== user_profile.user_id){
+
+							buttonstring = "<button id=\"remove_from_group_"+user_profile.user_id+"\" type=\"button\" class=\"btn btn-danger\">Remove</button>"
 						}
-					}
 
-					document.getElementById("balances").innerHTML += "<tr><td>"+name+"</td><td>"+balance+"</td><td>"+adminstring+"</td></tr>";
-				});
-			}
+
+
+
+						if (admin == true){
+							adminstring = "Admin";
+						}
+
+						for (let i = 0; i < transactions.length; i++){
+							if (transactions[i][1] == user_profile.user_id){
+								balance += transactions[i][0];
+							}
+						}
+
+						document.getElementById("balances").innerHTML += "<tr><td>"+name+"</td><td>"+balance+"</td><td>"+adminstring+"</td><td>"+buttonstring+"</td></tr>";
+						if (buttonstring !== ""){
+							document.getElementById("remove_from_group_"+user_profile.user_id).addEventListener("click", function () {
+								let err = postApi("/api/groups/removeUser/"+currentGroup+"/"+user_profile.user_id);
+								if (err != 200){
+									alert(err);
+								}
+							});
+						}
+						
+					});
+				}
+			});
 			
 		});
 
