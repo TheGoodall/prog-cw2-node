@@ -303,4 +303,55 @@ app.post("/api/groups/removeUser/:groupid/:userid", checkJwt, function (req, res
 	}
 });
 
+app.post("/api/groups/makeAdmin/:groupid/:userid/:admin", checkJwt, function (req, resp){
+	let groupid = req.params.groupid;
+	let userid = req.params.userid;
+	let admin = req.params.admin;
+	if (admin == "false"){
+		admin = false;
+	} else {
+		admin = true;
+	}
+
+	let isValidGroup = false;
+	let isValidUserid = false;
+	let requesterIsAdmin = false;
+
+	let validGroup = [];
+	let validGroupIndex = 0;
+	let validUserIndex = 0;
+
+
+	for(let i = 0; i < groups.length; i++){
+		if (groups[i][0] == groupid){
+			isValidGroup = true;
+			validGroup = groups[i];
+			validGroupIndex = i;
+		}
+	}
+
+	for(let i = 0; i < validGroup[1].length; i++){
+		if (validGroup[1][i][0]== userid){
+			isValidUserid = true;
+			validUserIndex = i;
+		}
+		if (validGroup[1][i][0] == req.user.sub && validGroup[1][i][1] == true){
+			requesterIsAdmin = true;
+		}
+	}
+
+	if (requesterIsAdmin == false){
+		resp.sendStatus(403);
+	} else if (isValidUserid == false | isValidGroup == false){
+		resp.sendStatus(404);
+	} else {
+		groups[validGroupIndex][1][validUserIndex][1] = admin;
+		resp.sendStatus(200)
+	}
+
+
+
+
+})
+
 app.listen(8090);
