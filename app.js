@@ -41,8 +41,8 @@ function getToken(callback){
 		form: 
 		{
 			grant_type: "client_credentials",
-			client_id: "xGj40aZOgwwkdPCYzGsRqek3rnnr08lk",
-			client_secret: "3402emeVq4cRzRLiWzkt1Q2h2NmBN4uOjcCsZe4DCE48L3U_sSY_v_zPOZdeb2Fd",
+			client_id: "<redacted>",
+			client_secret: "<redacted>",
 			audience: "https://frizlette.eu.auth0.com/api/v2/" 
 		}
 	};
