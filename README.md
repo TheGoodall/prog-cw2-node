@@ -1,94 +1,71 @@
-# prog-cw2-node
-### Second term coursework for the "programming" module
-
-# Tasks:
-
-## Task summary
-
-- Construct a dynamic web-site for an application of your choosing
-- Use static HTML pages loading dynamic JSON content from server via AJAX
-- Server written in nodejs to provide JSON through REST API
-- Optional use of externally provided web service and/or cloud hosting
+# Food! - Documentation!
 
 
-## Dynamic web-site
+## Cloud deployment
 
-- Any application domain as long as it includes two kinds of entities e.g.
-  - people
-  - places
-  - events
-  - comments
-  - pictures
-- Could be e.g. club, diary, social, health, gallery
+The cloud deployment can be found at [frizlette.me](http://frizlette.me)
+
+## API Documentation
+
+All requests use the bearer authentication scheme, where the Authorization header must containt: "Bearer \<access token\>"
 
 
-## Static HTML loading JSON via AJAX
+### GET Requests:
 
-- 'Single page app'
-- Can have more than one page e.g. for user and admin
-- Should provide clean and simple User Experience (UX)
-- Should be responsive i.e. work well on desktop and mobile
-- Recommend using framework such as Bootstrap, semantic-ui
+### Groups
 
+#### By User
 
-## Message sequence chart
+`/api/groups/byUser/<userid>`
 
-![Message Sequence Chart showing Client server interaction with AJAX](https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgQ2xpZW50L3NlcnZlciBpbnRlcmFjdGlvbgoKABUGLT5TABcFOiBTdGF0aWMgcGFnZSByZXF1ZXN0CgAWBi0-AEEGOiBIVE1MCmxvb3AgZWFjaCB1c2VyIABJBwA_EER5bmFtaWMgY29udGVudABLCCAoQUpBWCkASRFKU09OAIEKCQBnCFJlbmRlcgAXBQA_CWFzAIEBBSB3aXRoaW4gRE9NCmVuZAoK&s=roundgreen)
+returns an array of group names in json format
 
+### Users
 
-## Server provides JSON through a REST API
+#### By Group
 
-Each entity type (e.g. person) has 
+`/api/users/byGroup/<groupid>`
 
-- GET method to list/search 
-- GET method for individual details 
-- POST method to add new (with authentication)
+returns an array in the form:
 
+```javascript
+[[user1, admin], [user2, admin], ...]
+```
 
-- Response provided as JSON
-- Content-type needs to be correct
-- HTTP codes should be correct: use 200, 400 or 403 (with authentication)
+#### By Query
 
+`/api/users/byQuery/<query>`
 
-## Server written in nodejs
+returns an array of user profiles that match the query
 
-- Use npm for management
-- Make sure you use --save or --save-dev option with packages you add
-- Write jest test cases: run with `npm test`
-- Use eslint: run with `npm pretest`
-- Recommended using express
+#### By id
 
+`/api/users/byid/<userid>`
 
-## Extension 1: cloud deployment
+returns a profile of the user
 
-- Local installation must not use database: use in-memory model
-- You can choose cloud deployment platform e.g. OpenShift, BlueMix, Heroku 
-- Local deployment with `npm start`
-- You don't need to include cloud deployment instructions
-- Include url of running system
+### Transactions
 
+`/api/transactions/byGroup/<groupid>`
 
-## Extension 2: external web service
+returns an array of transactions in a group
 
-Find something appropriate at
+### POST Requests:
 
-- <https://any-api.com/>
-- <https://www.programmableweb.com/>
-- google/facebook authentication
+### Groups
 
-Integrate it into your web server
+#### Add User
 
+`/api/group/addUser/<groupid>/<userid>`
 
-## Submission
+adds the user to the group
 
-Source code (all zipped)
+returns 404 if the user or group are not found, 409 if the user is already in the group, and 403 if the authenticated user is not an admin in the group
 
-- HTML and CSS and any media
-- Client and server side JavaScript
-- package.json including test and pretest scripts
-- .eslintrc 
-- jest test cases e.g. app.test.js
-- README.md explaining how to use the site and API
+### Transactions
 
-Should not include `node_modules` in submission
+`/api/transactions/newTransaction/<groupid>/<userid>/<value>`
 
+adds a new transaction
+
+returns 400 if the value is NaN, 404 if the group is not valid, 403 if the authenticated user is attempting to add a user for someone else, and 404 if the user does not exist
