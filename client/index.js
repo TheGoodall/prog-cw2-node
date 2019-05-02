@@ -88,8 +88,20 @@ function load_group(group){
 						let buttonstring = "";
 						if (logged_in_user_is_admin && profile.sub !== user_profile.user_id){
 
-							buttonstring = "<button id=\"remove_from_group_"+user_profile.user_id+"\" type=\"button\" class=\"btn btn-danger\">Remove</button>";
+							buttonstring = "<button id=\"remove_from_group_"+user_profile.user_id+"\" type=\"button\" class=\"btn btn-danger\">Kick</button>";
 						}
+						let adminButtonString = "";
+						let makeadmin = false;
+						if (logged_in_user_is_admin){
+							if (admin){
+								adminButtonString = "<button id=\"change_admin_"+user_profile.user_id+"\" type=\"button\" class=\"btn btn-success\">Remove Admin</button>";
+								makeadmin = false;
+							} else {
+								adminButtonString = "<button id=\"change_admin_"+user_profile.user_id+"\" type=\"button\" class=\"btn btn-success\">Make Admin</button>";
+								makeadmin = true;
+							}
+						}
+						
 
 
 
@@ -104,13 +116,28 @@ function load_group(group){
 							}
 						}
 
-						document.getElementById("balances").innerHTML += "<tr><td>"+name+"</td><td>"+balance+"</td><td>"+adminstring+"</td><td>"+buttonstring+"</td></tr>";
+						document.getElementById("balances").innerHTML += "<tr><td>"+name+"</td><td>"+balance+"</td><td>"+adminstring+"</td><td>"+buttonstring+"</td><td>"+adminButtonString+"</td></tr>";
+
+
 						if (buttonstring !== ""){
 							document.getElementById("remove_from_group_"+user_profile.user_id).addEventListener("click", function () {
 								let err = postApi("/api/groups/removeUser/"+currentGroup+"/"+user_profile.user_id);
 								if (err != 200){
 									alert(err);
 								}
+								load_group(currentGroup)
+							});
+						}
+						if (adminButtonString !== ""){
+							document.getElementById("change_admin_"+user_profile.user_id).addEventListener("click", function () {
+								postApi("/api/groups/makeAdmin/"+currentGroup+"/"+user_profile.user_id+"/"+makeadmin).then(err => {
+									if (err != 200){
+										alert(err);
+									}
+									load_group(currentGroup);
+								});
+								
+								
 							});
 						}
 						
