@@ -125,7 +125,7 @@ function load_group(group){
 								if (err != 200){
 									alert(err);
 								}
-								load_group(currentGroup)
+								load_group(currentGroup);
 							});
 						}
 						if (adminButtonString !== ""){
@@ -167,9 +167,11 @@ function load_group(group){
 
 	
 
+
 	$("#transactions_collapse").collapse("show");
 	$("#group_collapse").collapse("show");
 	$("#new").collapse("show");
+
 	document.getElementById("groupname").innerHTML = group;	
 
 }
