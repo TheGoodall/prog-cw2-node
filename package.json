@@ -4,8 +4,9 @@
   "description": "Second programming coursework",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "jest",
+    "start": "node server.js",
+    "pretest": "eslint server.js client/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,14 +20,14 @@
   "homepage": "https://github.com/TheGoodall/prog-cw2-node#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "eslint": "^5.16.0",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
     "express-jwt-authz": "^2.3.1",
+    "jest": "^24.7.1",
     "jwks-rsa": "^1.4.0",
     "node-fetch": "^2.4.1",
     "nodemon": "^1.18.10"
   },
-  "devDependencies": {
-    "eslint": "^5.16.0"
-  }
+  "devDependencies": {}
 }
