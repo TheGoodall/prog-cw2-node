@@ -354,4 +354,4 @@ app.post("/api/groups/makeAdmin/:groupid/:userid/:admin", checkJwt, function (re
 
 });
 
-app.listen(8090);
+module.exports = app;
