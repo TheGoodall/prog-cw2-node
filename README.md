@@ -1,5 +1,14 @@
 # Food! - Documentation!
 
+## Peer assesment:
+
+This copy of the server is missing the secret, this means it cannot communicate with the external api (auth0), this means that some feature will not work. for a fully working version see the cloud deployment
+
+An account for testing purposes is provided: 
+
+Username: test@test.com
+
+Password: Test1234
 
 ## Cloud deployment
 
@@ -58,9 +67,25 @@ returns an array of transactions in a group
 
 `/api/group/addUser/<groupid>/<userid>`
 
-adds the user to the group
+adds a user to a group
 
 returns 404 if the user or group are not found, 409 if the user is already in the group, and 403 if the authenticated user is not an admin in the group
+
+#### Remove User
+
+`/api/groups/removeUser/<groupid>/<userid>`
+
+removes a user from a group
+
+returns 404 if the user or group are not found, 403 if the authenticated user is not an admin or is trying to remove themselves
+
+#### Make Admin
+
+`/api/groups/makeAdmin/<groupid>/<userid>/<admin>`
+
+sets the admin state of a user in a group to that of the admin parameter
+
+returns 403 if the authenticated user is not an admin, 404 if the user or group do not exist
 
 ### Transactions
 

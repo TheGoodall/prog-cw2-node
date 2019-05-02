@@ -24,28 +24,11 @@ app.use(cors({credentials: true, origin: true}));
 
 app.use(express.static("client"));
 
-let groups = [
-	["Test Group", [
-		["google-oauth2|114880290605117536405", true],
-		["auth0|5cc5d97b0bd2550ebbe36d2c", true]
-	]],
-	["Other Test Group", [
-		["google-oauth2|114880290605117536405", false]
-	]],
-	["more test groups", [
-		["auth0|5cc5d97b0bd2550ebbe36d2c", true]
-	]]
-];
+let groups = []
 
 
 
-let transactions = [
-	[15, "auth0|5cc5d97b0bd2550ebbe36d2c", "Test Group", new Date(2019, 4, 30, 17, 35, 27, 672)], 
-	[25, "google-oauth2|114880290605117536405", "Test Group", new Date(2019, 4, 30, 16, 35, 27, 672)], 
-	[-17, "google-oauth2|114880290605117536405", "Test Group", new Date(2019, 4, 30, 15, 35, 27, 672)], 
-	[15, "google-oauth2|114880290605117536405", "Other Test Group", new Date(2019, 4, 30, 14, 35, 27, 672)], 
-	[15, "google-oauth2|114880290605117536405", "Other Test Group", new Date(2019, 4, 30, 13, 35, 27, 672)]
-];
+let transactions = [];
 
 
 function getToken(callback){

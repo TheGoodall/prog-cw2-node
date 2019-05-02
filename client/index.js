@@ -167,9 +167,11 @@ function load_group(group){
 
 	
 
-
+	// eslint-disable-next-line no-undef
 	$("#transactions_collapse").collapse("show");
+	// eslint-disable-next-line no-undef
 	$("#group_collapse").collapse("show");
+	// eslint-disable-next-line no-undef
 	$("#new").collapse("show");
 
 	document.getElementById("groupname").innerHTML = group;	
@@ -217,6 +219,7 @@ function load_users(){
 						alert("Error, that user is in that group already!");
 					}
 				});
+				// eslint-disable-next-line no-undef
 				$("#add_to_group_collapse").collapse("hide");
 				load_group(currentGroup);
 
@@ -227,12 +230,14 @@ function load_users(){
 	});
 }
 document.getElementById("add_to_group_button").addEventListener("click", function(){
+	// eslint-disable-next-line no-undef
 	$("#add_to_group_collapse").collapse("toggle");
 	load_users();
 });
 
 // New group creation:
 function new_group(){
+	// eslint-disable-next-line no-undef
 	$("#new_group_collapse").collapse("hide");
 	let newname = document.getElementById("new_group_name").value;
 	postApi("/api/groups/newGroup/"+newname).then(load_groups());
@@ -240,6 +245,7 @@ function new_group(){
 }
 
 document.getElementById("new_group_button").addEventListener("click", function(){
+	// eslint-disable-next-line no-undef
 	$("#new_group_collapse").collapse("toggle");
 });
 
@@ -249,6 +255,7 @@ document.getElementById("new_group_save_button").addEventListener("click", funct
 
 // New transaction creation:
 function new_transaction(){
+	// eslint-disable-next-line no-undef
 	$("#new_transaction_collapse").collapse("hide");
 
 	postApi("/api/transactions/newTransaction/"+currentGroup+"/"+currentUser+"/"+document.getElementById("new_transaction_value").value).then(load_group(currentGroup));
@@ -256,6 +263,7 @@ function new_transaction(){
 }
 
 document.getElementById("new_transaction_button").addEventListener("click", function(){
+	// eslint-disable-next-line no-undef
 	$("#new_transaction_collapse").collapse("toggle");
 });
 
