@@ -346,12 +346,12 @@ app.post("/api/groups/makeAdmin/:groupid/:userid/:admin", checkJwt, function (re
 		resp.sendStatus(404);
 	} else {
 		groups[validGroupIndex][1][validUserIndex][1] = admin;
-		resp.sendStatus(200)
+		resp.sendStatus(200);
 	}
 
 
 
 
-})
+});
 
 app.listen(8090);
