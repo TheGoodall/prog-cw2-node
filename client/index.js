@@ -76,7 +76,7 @@ function load_group(group){
 				for (let i = 0; i<data.length; i++){
 					if (data[i][0] == profile.sub && data[i][1] == true){
 						logged_in_user_is_admin = true;
-						document.getElementById("add_to_group_button_area").innerHTML = "<button id=\"add_to_group_button\" type=\"button\" class=\"btn btn-primary\">Add!</button>"
+						document.getElementById("add_to_group_button_area").innerHTML = "<button id=\"add_to_group_button\" type=\"button\" class=\"btn btn-primary\">Add!</button>";
 					} 
 				}
 				if (logged_in_user_is_admin == false){

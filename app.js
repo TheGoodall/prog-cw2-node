@@ -24,7 +24,7 @@ app.use(cors({credentials: true, origin: true}));
 
 app.use(express.static("client"));
 
-let groups = []
+let groups = [];
 
 
 
